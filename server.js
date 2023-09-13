@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const Students = require("./models/userModel");
+const Attendace = require("./models/attendanceModel");
 
 const app = express();
 
@@ -12,13 +13,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-// add
-app.post("/register", async (req, res) => {
+//fetch all attendace
+app.get("/attendance", async (req, res) => {
   try {
-    const students = await Students.create(req.body);
-    res.status(200).json(students);
+    const attendace = await Attendace.find({});
+    res.status(200).json(attendace);
   } catch (error) {
-    console.log(error.message);
     res.status(500).json({ message: error.message });
   }
 });
