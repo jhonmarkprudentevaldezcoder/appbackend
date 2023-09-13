@@ -1,29 +1,31 @@
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, "Please enter first name"],
-    },
-    email: {
-      type: String,
-      required: [true, "Please enter email"],
-    },
-    password: {
-      type: String,
-      required: [true, "Please enter password"],
-    },
-    contact: {
-      type: String,
-      required: [true, "Please enter contact"],
-    },
+const studentsSchema = mongoose.Schema({
+  username: {
+    type: String,
+    required: [true, "Please enter username"],
   },
-  {
-    timestamps: true,
-  }
-);
+  lrn: {
+    type: String,
+    required: [true, "Please enter lrn"],
+  },
 
-const User = mongoose.model("Users", userSchema);
+  firstName: {
+    type: String,
+    required: [true, "Please enter firstName"],
+  },
 
-module.exports = User;
+  middleName: {
+    type: String,
+    required: [true, "Please enter middleName"],
+  },
+
+  lastName: {
+    type: String,
+    required: [true, "Please enter lastName"],
+  },
+});
+
+const Students = mongoose.model("students", studentsSchema);
+
+module.exports = Students;
