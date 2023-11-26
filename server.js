@@ -15,6 +15,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 //fetch all attendace
+app.get("/", async (req, res) => {
+  try {
+    const attendace = await Attendace.find({});
+    res.status(200).json(attendace);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//fetch all attendace
 app.get("/attendance", async (req, res) => {
   try {
     const attendace = await Attendace.find({});
