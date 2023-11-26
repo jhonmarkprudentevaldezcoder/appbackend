@@ -17,8 +17,8 @@ app.use(cors());
 //fetch all attendace
 app.get("/", async (req, res) => {
   try {
-    const attendace = await Attendace.find({});
-    res.status(200).json(attendace);
+    const student = await Students.find({});
+    res.status(200).json(student);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
