@@ -24,6 +24,15 @@ const studentsSchema = mongoose.Schema({
     type: String,
     required: [true, "Please enter lastName"],
   },
+  rfid: {
+    type: String,
+  },
+  timein: {
+    type: String,
+  },
+  timeou: {
+    type: String,
+  },
 });
 
 const Students = mongoose.model("students", studentsSchema);

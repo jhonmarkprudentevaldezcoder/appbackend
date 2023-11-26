@@ -24,6 +24,85 @@ app.get("/attendance", async (req, res) => {
   }
 });
 
+//search student
+app.get("/student/:lrn", async (req, res) => {
+  try {
+    const { lrn } = req.params;
+    const student = await Students.find({ lrn: lrn });
+
+    if (student.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(student);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//update student
+app.put("/student/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const student = await Students.findByIdAndUpdate(id, req.body);
+
+    if (!student) {
+      return res
+        .status(404)
+        .json({ message: `cannot find any schedule with ID ${id}` });
+    }
+    const updatedStudent = await Students.findById(id);
+    res.status(200).json(updatedStudent);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//fetch all students
+app.get("/student", async (req, res) => {
+  try {
+    const students = await Students.find({});
+    res.status(200).json(students);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//register student
+app.post("/student", async (req, res) => {
+  const { lrn } = req.body;
+  const { rfid } = req.body;
+
+  try {
+    // Check if the rfid is registered
+    const existingRfid = await Students.findOne({ rfid: rfid });
+
+    if (!existingRfid) {
+      try {
+        // Check if the email is already taken
+        const existingUser = await Students.findOne({ lrn });
+
+        if (existingUser) {
+          return res.status(400).json({ message: "lrn already taken." });
+        }
+
+        // If the email is not taken, create the user
+        const user = await Students.create(req.body);
+        res.status(200).json(user);
+        console.log("User registered!");
+      } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: error.message });
+      }
+    } else {
+      res.status(500).json({ message: "rfid already taken" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // add admin
 app.post("/admin", async (req, res) => {
   try {
