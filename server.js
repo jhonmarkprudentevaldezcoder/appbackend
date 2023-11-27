@@ -75,7 +75,7 @@ app.get("/student", async (req, res) => {
     res.status(200).json(students);
   } catch (error) {
     res.status(500).json({ message: error.message });
-  }
+  } 
 });
 
 //register student
