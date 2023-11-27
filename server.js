@@ -50,18 +50,20 @@ app.get("/student/:lrn", async (req, res) => {
   }
 });
 
-//update student
-app.put("/student/:id", async (req, res) => {
+// Update student
+app.put("/student/:lrn", async (req, res) => {
   try {
-    const { id } = req.params;
-    const student = await Students.findByIdAndUpdate(id, req.body);
+    const { lrn } = req.params;
+    const updatedStudent = await Students.findOneAndUpdate({ lrn }, req.body, {
+      new: true,
+    });
 
-    if (!student) {
+    if (!updatedStudent) {
       return res
         .status(404)
-        .json({ message: `cannot find any schedule with ID ${id}` });
+        .json({ message: `Cannot find any student with LRN ${lrn}` });
     }
-    const updatedStudent = await Students.findById(id);
+
     res.status(200).json(updatedStudent);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -75,7 +77,7 @@ app.get("/student", async (req, res) => {
     res.status(200).json(students);
   } catch (error) {
     res.status(500).json({ message: error.message });
-  } 
+  }
 });
 
 //register student
