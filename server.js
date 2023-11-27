@@ -70,6 +70,55 @@ app.put("/student/:lrn", async (req, res) => {
   }
 });
 
+// Update student timein/timeout
+app.put("/student/time/:rfid", async (req, res) => {
+  try {
+    const { rfid } = req.params;
+
+    // Update the "timein" or "timeout" property based on AM or PM
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+
+    if (currentHour < 12) {
+      // AM: Update timein
+      req.body.timein = currentTime.toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false, // Display 24-hour format
+      });
+    } else {
+      // PM: Update timeout
+      req.body.timeou = currentTime.toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false, // Display 24-hour format
+      });
+    }
+
+    const updatedStudent = await Students.findOneAndUpdate({ rfid }, req.body, {
+      new: true,
+    });
+
+    if (!updatedStudent) {
+      return res
+        .status(404)
+        .json({ message: `Cannot find any student with RFID ${rfid}` });
+    }
+
+    res.status(200).json(updatedStudent);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 //fetch all students
 app.get("/student", async (req, res) => {
   try {
