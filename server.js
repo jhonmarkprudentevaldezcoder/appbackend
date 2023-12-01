@@ -99,7 +99,7 @@ app.put("/student/time/:rfid", async (req, res) => {
 
     if (currentHour < 12) {
       // AM: Update timein
-      req.body.timein = currentTime.toLocaleString("en-US", {
+      req.body.timein = currentTime.toLocaleString("Asia/Manila", {
         year: "numeric",
         month: "short",
         day: "2-digit",
@@ -110,7 +110,7 @@ app.put("/student/time/:rfid", async (req, res) => {
       });
     } else {
       // PM: Update timeout
-      req.body.timeout = currentTime.toLocaleString("en-US", {
+      req.body.timeout = currentTime.toLocaleString("Asia/Manila", {
         year: "numeric",
         month: "short",
         day: "2-digit",
