@@ -15,9 +15,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 //fetch all attendace
-app.get("/student/attendance", async (req, res) => {
+app.get("/student/attendance/:lrn", async (req, res) => {
   try {
-    const { lrn } = req.body;
+    const { lrn } = req.params;
     const student = await Attendace.find({ lrn: lrn});
 
     if (student.length === 0) {
