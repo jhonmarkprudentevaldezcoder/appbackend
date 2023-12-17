@@ -89,7 +89,7 @@ app.put("/student/:lrn", async (req, res) => {
 });
 
 // Update student timein/timeout
-app.put("/student/time/:rfid", async (req, res) => {
+/* app.put("/student/time/:rfid", async (req, res) => {
   try {
     const { rfid } = req.params;
 
@@ -133,6 +133,17 @@ app.put("/student/time/:rfid", async (req, res) => {
 
     res.status(200).json(updatedStudent);
   } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}); */
+
+// add admin
+app.post("/student/time", async (req, res) => {
+  try {
+    const attendace = await Attendace.create(req.body);
+    res.status(200).json(attendace);
+  } catch (error) {
+    console.log(error.message);
     res.status(500).json({ message: error.message });
   }
 });

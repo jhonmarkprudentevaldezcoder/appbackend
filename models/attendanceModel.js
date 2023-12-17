@@ -15,6 +15,14 @@ const attendaceSchema = mongoose.Schema({
     required: [true, "Please enter lrn"],
   },
 
+  timein: {
+    type: String,
+  },
+
+  timeout: {
+    type: String,
+  },
+
   date: {
     type: String,
     required: [true, "Please enter date"],
