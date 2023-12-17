@@ -18,7 +18,7 @@ app.use(cors());
 app.get("/student/attendance/:lrn", async (req, res) => {
   try {
     const { lrn } = req.params;
-    const student = await Attendace.find({ lrn: lrn});
+    const student = await Attendace.find({ lrn: lrn });
 
     if (student.length === 0) {
       return res.status(404).json({ message: "No matching records found" });
@@ -33,14 +33,13 @@ app.get("/student/attendance/:lrn", async (req, res) => {
 // add attendace
 app.post("/student/attendance", async (req, res) => {
   try {
-      const userAttendance = await Attendace.create(req.body);
-      res.status(200).json(userAttendance);
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).json({ message: error.message });
-    }
+    const userAttendance = await Attendace.create(req.body);
+    res.status(200).json(userAttendance);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message });
+  }
 });
-
 
 //fetch all attendace
 app.get("/attendance", async (req, res) => {
@@ -158,10 +157,34 @@ app.put("/student/:lrn", async (req, res) => {
 // add admin
 app.post("/student/time", async (req, res) => {
   try {
-    const attendace = await Attendace.create(req.body);
-    res.status(200).json(attendace);
+    // Extract LRN and date from the request body
+    const { lrn, date } = req.body;
+
+    // Check if there is an existing record in the database for the LRN and date
+    const existingAttendance = await Attendace.findOne({ lrn, date });
+
+    // Get the current date and time with the Philippines time zone
+    const currentTime = new Date().toLocaleTimeString("en-US", {
+      timeZone: "Asia/Manila",
+      hour12: true,
+    });
+
+    if (existingAttendance) {
+      // If a record exists, update the timeout field to the current time
+      existingAttendance.timeout = currentTime;
+      await existingAttendance.save();
+      res.status(200).json(existingAttendance);
+    } else {
+      // If no record exists, create a new record with the current time as timein
+      const newAttendance = await Attendace.create({
+        lrn,
+        date,
+        timein: currentTime,
+      });
+      res.status(200).json(newAttendance);
+    }
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
     res.status(500).json({ message: error.message });
   }
 });

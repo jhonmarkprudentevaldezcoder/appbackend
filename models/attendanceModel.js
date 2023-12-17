@@ -3,22 +3,19 @@ const mongoose = require("mongoose");
 const attendaceSchema = mongoose.Schema({
   username: {
     type: String,
-    required: [true, "Please enter username"],
   },
   status: {
     type: String,
-    required: [true, "Please enter status"],
   },
 
   lrn: {
     type: String,
-    required: [true, "Please enter lrn"],
   },
   timein: {
     type: String,
   },
-  
-   timeout: {
+
+  timeout: {
     type: String,
   },
 
