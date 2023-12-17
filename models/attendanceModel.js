@@ -32,7 +32,6 @@ const attendaceSchema = mongoose.Schema({
 
   date: {
     type: String,
-    required: [true, "Please enter date"],
   },
 });
 
