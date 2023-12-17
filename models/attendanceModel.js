@@ -31,8 +31,7 @@ const attendaceSchema = mongoose.Schema({
   },
 
   date: {
-    type: Date, // Use Date type for date fields
-    default: Date.now, // Set default value to the current date and time
+    type: String,
   },
 });
 
