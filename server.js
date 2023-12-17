@@ -15,14 +15,32 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 //fetch all attendace
-app.get("/", async (req, res) => {
+app.get("/student/attendance/:lrn", async (req, res) => {
   try {
-    const student = await Students.find({});
+    const { lrn } = req.params;
+    const student = await Attendace.find({ lrn: lrn});
+
+    if (student.length === 0) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
     res.status(200).json(student);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
+// add attendace
+app.post("/student/attendance", async (req, res) => {
+  try {
+      const userAttendance = await Attendace.create(req.body);
+      res.status(200).json(userAttendance);
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json({ message: error.message });
+    }
+});
+
 
 //fetch all attendace
 app.get("/attendance", async (req, res) => {
