@@ -11,6 +11,9 @@ const attendaceSchema = mongoose.Schema({
   lrn: {
     type: String,
   },
+  rfid: {
+    type: String,
+  },
   timein: {
     type: String,
   },

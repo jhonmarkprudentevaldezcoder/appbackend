@@ -158,10 +158,10 @@ app.put("/student/:lrn", async (req, res) => {
 app.post("/student/time", async (req, res) => {
   try {
     // Extract LRN and date from the request body
-    const { lrn, date } = req.body;
+    const { rfid, date } = req.body;
 
     // Check if there is an existing record in the database for the LRN and date
-    const existingAttendance = await Attendace.findOne({ lrn, date });
+    const existingAttendance = await Attendace.findOne({ rfid, date });
 
     // Get the current date and time with the Philippines time zone
     const currentTime = new Date().toLocaleTimeString("en-US", {
@@ -177,7 +177,7 @@ app.post("/student/time", async (req, res) => {
     } else {
       // If no record exists, create a new record with the current time as timein
       const newAttendance = await Attendace.create({
-        lrn,
+        rfid,
         date,
         timein: currentTime,
       });
