@@ -41,6 +41,22 @@ app.post("/student/attendance", async (req, res) => {
   }
 });
 
+// Search student by RFID and get mcontact
+app.get("/student/:rfid", async (req, res) => {
+  try {
+    const { rfid } = req.params;
+    const student = await Attendace.findOne({ rfid: rfid });
+
+    if (!student) {
+      return res.status(404).json({ message: "No matching records found" });
+    }
+
+    res.status(200).json(student);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 //fetch all attendace
 app.get("/attendance", async (req, res) => {
   try {
