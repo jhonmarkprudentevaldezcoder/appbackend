@@ -296,6 +296,7 @@ app.post("/login", async (req, res) => {
       token: `${token}`,
       userId: user._id,
       lrn: user.lrn,
+      rfid:user.rfid,
     });
   } catch (error) {
     console.log(error.message);
