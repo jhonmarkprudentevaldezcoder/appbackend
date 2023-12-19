@@ -15,10 +15,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 //fetch all attendace
-app.get("/student/attendance/:lrn", async (req, res) => {
+app.get("/student/attendance/:rfid", async (req, res) => {
   try {
-    const { lrn } = req.params;
-    const student = await Attendace.find({ lrn: lrn });
+    const { rfid } = req.params;
+    const student = await Attendace.find({ rfid: rfid });
 
     if (student.length === 0) {
       return res.status(404).json({ message: "No matching records found" });
